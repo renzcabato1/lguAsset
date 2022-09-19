@@ -74,4 +74,7 @@
  
 </script>
 @endsection
+@section('footer')
+  <script src="{{ asset('assets/js/app.min.js') }}"></script>
+@endsection
 

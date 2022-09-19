@@ -119,18 +119,20 @@
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
-      <nav class="navbar navbar-expand-lg main-navbar sticky">
-        <div class="form-inline mr-auto">
+      <nav class="navbar navbar-expand-lg main-navbar sticky d-flex justify-content-between">
+        <div class="form-inline ">
           <ul class="navbar-nav mr-3">
             <li>
                 <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn"> <i data-feather="align-justify"></i></a>
             </li>
-            
-            {{-- <h3 class='text-center'>ASSET INVENTORY MONITORING SYSTEM</h3 > --}}
+          </ul>
+        </div>
+        <div>
+          <ul class="navbar-nav mr-3">
+            <li><h3 style="letter-spacing: 7px;">ASSET INVENTORY MONITORING SYSTEM</h3></li>
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
-         
           <li class="dropdown"><a href="#" data-toggle="dropdown"
               class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{{'images/no_image.png'}}" class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
@@ -151,10 +153,10 @@
       </nav>
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
-          <div class="sidebar-brand">
-            <a href="index.html"> <img alt="image" src="{{asset('images/icon.png')}}" class="header-logo" /> <span
-                class="logo-name">AIMS</span>
-            </a>
+          <div class="sidebar-brand p-2">
+            <a href="index.html"> <img alt="image" src="{{asset('images/icon.png')}}" class="header-logo" /> 
+            </a><br>
+            <h5 class="logo-name pt-2" >Welcome {{ (explode(" ", auth()->user()->name))[0] }}</h5>
           </div>
             <ul class="sidebar-menu">
               <li class="menu-header">Transactions</li>
@@ -220,7 +222,7 @@
     }
 </script>
   <!-- General JS Scripts -->
-  <script src="{{ asset('assets/js/app.min.js') }}"></script>
+
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
   <!-- Custom JS File -->
   <script src="{{ asset('assets/js/custom.js') }}"></script>
