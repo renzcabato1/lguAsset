@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Category;
+use App\AssetType;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -10,12 +11,14 @@ class CategoryController extends Controller
     public function categories()
     {
         $categories = Category::get();
+        $asset_types = AssetType::get();
         return view('categories',
         
         array(
         'subheader' => '',
         'header' => "Category",
-        'categories' => $categories
+        'categories' => $categories,
+        'asset_types' => $asset_types
         )
     );
     }
@@ -25,22 +28,13 @@ class CategoryController extends Controller
         $this->validate($request, [
             'code' => 'unique:categories|required',
             'category_name' => 'required',
-            // 'image' => 'required',
         ]);
-
+        // dd($request->all());
         $category = new Category;
         $category->category_name = $request->category_name;
         $category->code = $request->code;
+        $category->asset_type_id = $request->asset_type;
         $category->status = "Active";
-        if($request->hasFile('image'))
-        {
-            $attachment = $request->file('image');
-            $original_name = $attachment->getClientOriginalName();
-            $name = time().'_'.$attachment->getClientOriginalName();
-            $attachment->move(public_path().'/category_images/', $name);
-            $file_name = '/category_images/'.$name;
-            $category->image_path = $file_name;
-        }
         $category->save();
         $request->session()->flash('status','Successfully created');
         return back();

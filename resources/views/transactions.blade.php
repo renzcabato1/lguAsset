@@ -34,12 +34,12 @@
                             @foreach($dataList as $name)
                               @php
                                   $employees = collect($employees);
-                                  $filtered = $employees->where('badgeno', $name->emp_code);
+                                  $filtered = $employees->where('emp_code', $name->emp_code);
                               @endphp
                               <tr>
                                 <td> 
                                   @foreach($filtered->all() as $filt)
-                                    {{$filt->lastname}}, {{$filt->firstname}} {{$filt->middlename}}
+                                    {{$filt->name}}
                                   @endforeach
                                 </td>
                                 <td><a href="#" class="btn btn-primary" onclick='generateEmployee({{$name}})' title='generate to pdf' data-toggle="modal" data-target="#generatedata"><i class='fas fa-file-export'></i> Generate</a></td>
@@ -64,17 +64,18 @@
                         <tbody>
                             @php
                                 $dataListDepartment  = collect($employeeInventoriesDepartment)->unique('department');
-                                // dd($dataListDepartment);
+                             
                             @endphp
                             @foreach($dataListDepartment as $name)
                               @php
+                                //  dd($dataListDepartment);
                                   $employees = collect($employees);
-                                  $filtered = $employees->where('badgeno', $name->emp_code);
+                                  $filtered = $employees->where('emp_code', $name->emp_code);
                               @endphp
                               <tr>
                                 <td> 
                                   @foreach($filtered->all() as $filt)
-                                    {{$filt->lastname}}, {{$filt->firstname}} {{$filt->middlename}}
+                                    {{$filt->name}}
                                   @endforeach
                                 </td>
                                 <td><a href="#" class="btn btn-primary" onclick='generateEmployee({{$name}})' title='generate to pdf' data-toggle="modal" data-target="#generatedata"><i class='fas fa-file-export'></i> Generate</a></td>
@@ -111,7 +112,7 @@
                               <tr>
                                 <td>TR-{{str_pad($trans->id, 4, '0', STR_PAD_LEFT)}}</td>
                                 <td>{{$trans->name}}</td>
-                                <td>{{$trans->department}}</td>
+                                <td>{{$trans->depp->name}}</td>
                                 <td>{{$trans->position}}</td>
                                 <td>{{date('M d, Y',strtotime($trans->created_at))}}</td>
                                 <td>{{$trans->status}}</td>

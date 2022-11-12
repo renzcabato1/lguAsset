@@ -12,4 +12,8 @@ class Transaction extends Model
     {
         return $this->hasMany(InventoryTransaction::class);
     }
+    public function depp()
+    {
+        return $this->belongsTo(Department::class,'department','id');
+    }
 }

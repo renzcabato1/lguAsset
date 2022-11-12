@@ -109,7 +109,7 @@
     {
       float: right !important;
     }
-    
+
 
 </style>
 </head>
@@ -133,8 +133,8 @@
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
-          <li class="dropdown"><a href="#" data-toggle="dropdown"
-              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{{'images/no_image.png'}}" class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user"> 
+              <img alt="image" src="{{'images/no_image.png'}}" class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
               <div class="dropdown-title">Hello {{auth()->user()->name}}</div>
               {{-- <a href="profile.html" class="dropdown-item has-icon"> <i class="far
@@ -146,7 +146,7 @@
               </a>
               <form id="logout-form"  action="{{ route('logout') }}"  method="POST" style="display: none;">
                 {{ csrf_field() }}
-            </form>
+              </form>
             </div>
           </li>
         </ul>
@@ -154,8 +154,8 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand p-2">
-            <a href="index.html"> <img alt="image" src="{{asset('images/icon.png')}}" class="header-logo" /> 
-            </a><br>
+            <a href="{{url('/')}}"> <img alt="image" src="{{asset('images/icon.png')}}" class="header-logo" /></a>
+            <br>
             <h5 class="logo-name pt-2" >Welcome {{ (explode(" ", auth()->user()->name))[0] }}</h5>
           </div>
             <ul class="sidebar-menu">
@@ -163,18 +163,9 @@
               <li class="dropdown  @if($header == "Dashboard") active @endif">
                 <a href="{{ url('/') }}" class="nav-link" onclick='show();'><i data-feather="monitor"></i><span>Dashboard</span></a>
               </li>
-              {{-- <li class="dropdown  @if($header == "Requests") active @endif">
-                <a href="{{ url('/requests') }}" class="nav-link" onclick='show();'><i data-feather="file-plus"></i><span>Requests</span></a>
-              </li> --}}
               <li class="dropdown  @if($header == "Available Assets") active @endif">
                 <a href="{{ url('/available-assets') }}" class="nav-link" onclick='show();'><i data-feather="check-square"></i><span>Available Assets</span></a>
               </li>
-              {{-- <li class="dropdown  @if($header == "For Repairs") active @endif">
-                <a href="{{ url('/for-repair') }}" class="nav-link" onclick='show();'><i data-feather="settings"></i><span>For Repair</span></a>
-              </li> --}}
-              {{-- <li class="dropdown  @if($header == "Deployed Assets") active @endif">
-                <a href="{{ url('/deployed-assets') }}" class="nav-link" onclick='show();'><i data-feather="share-2"></i><span>Deployed Assets</span></a>
-              </li> --}}
               <li class="dropdown  @if($header == "Accountabilities") active @endif">
                 <a href="{{ url('/accountabilities') }}" class="nav-link" onclick='show();'><i data-feather="user-check"></i><span>Accountabilities</span></a>
               </li>
@@ -187,6 +178,9 @@
               <li class="menu-header">Settings</li>
               <li class="dropdown @if($header == "Category") active @endif">
                 <a href="{{ url('/category') }}" class="nav-link" onclick='show();'><i data-feather="list"></i><span>Categories</span></a>
+              </li>
+              <li class="dropdown @if($header == "Departments") active @endif">
+                <a href="{{ url('/departments') }}" class="nav-link" onclick='show();'><i data-feather="grid"></i><span>Departments</span></a>
               </li>
               <li class="dropdown @if($header == "Employees") active @endif">
                 <a href="{{ url('/employees') }}" class="nav-link" onclick='show();'><i data-feather="users"></i><span>Employees</span></a>

@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="row clearfix">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
           <div class="card">
             <div class="card-header">
               <h4>Asset per Category</h4>
@@ -77,7 +77,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
           <div class="card">
             <div class="card-header">
               <h4>Asset Allocation Per Department</h4>
@@ -99,6 +99,7 @@
   <script type="text/javascript">
    
     var categories = {!! json_encode($categories->toArray()) !!};
+    var departments = {!! json_encode($departments->toArray()) !!};
  
      // console.log(categories);
  
@@ -118,12 +119,12 @@
    {
        var dataChart = {};
        var invetories = categories[i].inventories;
-       // console.log(invetories);
        dataChart.category = categories[i].category_name;
        dataChart.count = invetories.length;
        chart.data[i] = dataChart;
    }
- 
+
+
    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
    categoryAxis.dataFields.category = "category";
    categoryAxis.renderer.grid.template.location = 0;
@@ -177,41 +178,24 @@
 var chart = am4core.create("donutChart", am4charts.PieChart);
 
 // Add data
-chart.data = [{
-  "Department": "Web Developer",
-  "litres": 501.9
-}, {
-  "Department": "Czech Republic",
-  "litres": 301.9
-}, {
-  "Department": "Ireland",
-  "litres": 201.1
-}, {
-  "Department": "Germany",
-  "litres": 165.8
-}, {
-  "Department": "Australia",
-  "litres": 139.9
-}, {
-  "Department": "Austria",
-  "litres": 128.3
-}, {
-  "Department": "UK",
-  "litres": 99
-}, {
-  "Department": "Belgium",
-  "litres": 60
-}, {
-  "Department": "The Netherlands",
-  "litres": 50
-}];
+ var doc = [];
+for(var i=0;i<departments.length;i++)
+   {
+       var docData = {};
+      
+       docData.Department = departments[i].code;
+       docData.count =1;
+       doc[i] = docData;
+   }
+
+chart.data = doc;
 
 // Set inner radius
 chart.innerRadius = am4core.percent(50);
 
 // Add and configure Series
 var pieSeries = chart.series.push(new am4charts.PieSeries());
-pieSeries.dataFields.value = "litres";
+pieSeries.dataFields.value = "count";
 pieSeries.dataFields.category = "Department";
 pieSeries.slices.template.stroke = am4core.color("#fff");
 pieSeries.slices.template.strokeWidth = 2;
@@ -222,6 +206,7 @@ pieSeries.labels.template.fill = am4core.color("#9aa0ac");
 pieSeries.hiddenState.properties.opacity = 1;
 pieSeries.hiddenState.properties.endAngle = -90;
 pieSeries.hiddenState.properties.startAngle = -90;
+
    }
 
    function donutChart() {

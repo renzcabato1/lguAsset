@@ -9,9 +9,12 @@ use App\Notifications\ReturnItemNotification;
 use App\EmployeeInventories;
 use App\Transaction;
 use App\AssetCode;
+use App\AssetType;
 use App\ReturnInventories;
 use App\ReturnInventoryData;
 use App\ReturnItem;
+use App\Department;
+use App\Employee;
 use App\InventoryTransaction;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -26,82 +29,23 @@ class AssetController extends Controller
     {
         $inventories = Inventory::with('category')->get();
         $categories = Category::where('status','=',"Active")->get();
-
-        $client = new Client([
-            'base_uri' => 'http://192.168.50.119:4200/HRAPI/public/',
-            'cookies' => true,
-            ]);
-
-        $data = $client->request('POST', 'oauth/token', [
-            'json' => [
-                'username' => 'rccabato@premiummegastructures.com',
-                'password' => 'P@ssw0rd',
-                'grant_type' => 'password',
-                'client_id' => '2',
-                'client_secret' => 'rVI1kVh07yb4TBw8JiY8J32rmDniEQNQayf3sEyO',
-                ]
-        ]);
-
-        $response = json_decode((string) $data->getBody());
-        $key = $response->access_token;
-
-        $dataEmployee = $client->request('get', 'employees', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $key,
-                    'Accept' => 'application/json'
-                ],
-            ]);
-        $responseEmployee = json_decode((string) $dataEmployee->getBody());
-        $employees = $responseEmployee->data;
+        $asset_types = AssetType::where('status','=',null)->get();
         return view('inventories',
         array(
             'subheader' => '',
             'header' => "Assets",
             'inventories' => $inventories,
             'categories' => $categories,
-            'employees' => $employees
+            'asset_types' => $asset_types,
             )
         );
     }
     public function availableAssets()
     {
         $inventories = Inventory::with('category')->where('status','Active')->get();
-        $client = new Client([
-            'base_uri' => 'http://192.168.50.119:4200/HRAPI/public/',
-            'cookies' => true,
-            ]);
-
-        $data = $client->request('POST', 'oauth/token', [
-            'json' => [
-                'username' => 'rccabato@premiummegastructures.com',
-                'password' => 'P@ssw0rd',
-                'grant_type' => 'password',
-                'client_id' => '2',
-                'client_secret' => 'rVI1kVh07yb4TBw8JiY8J32rmDniEQNQayf3sEyO',
-                ]
-        ]);
-
-        $response = json_decode((string) $data->getBody());
-        $key = $response->access_token;
-
-        $dataEmployee = $client->request('get', 'employees', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $key,
-                    'Accept' => 'application/json'
-                ],
-            ]);
-
-            
-        $dataDepartments = $client->request('get', 'departments', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $key,
-                'Accept' => 'application/json'
-            ],
-        ]);
-        $responseEmployee = json_decode((string) $dataEmployee->getBody());
-        $responseDepartment = json_decode((string) $dataDepartments->getBody());
-        $employees = $responseEmployee->data;
-        $departments = collect($responseDepartment->data);
+       
+        $employees = Employee::with('dep')->get();
+        $departments = Department::get();
         // dd($departments);
         return view('available_inventories',
         
@@ -117,6 +61,7 @@ class AssetController extends Controller
     }
     public function newAssets(Request $request)
     {
+        // dd($request->all());
         $def = "N/A";
         if(($request->category == 2) || ($request->category == 4))
         {
@@ -129,7 +74,6 @@ class AssetController extends Controller
                 'category' => 'required',
                 'brand' => 'required',
                 'model' => 'required',
-                'serial_number' => 'required|unique:inventories,serial_number,'.$def.',serial_number',
                 'description' => 'required',
                 // 'date_purchased' => 'required',
             ]);
@@ -144,35 +88,34 @@ class AssetController extends Controller
         {
             $inventory_code =  $oldest_data->equipment_code + 1 ;
         }
+
+        $attachment = $request->file('file');
+        $original_name = $attachment->getClientOriginalName();
+        $name = time().'_'.$attachment->getClientOriginalName();
+        $attachment->move(public_path().'/images/', $name);
+        $file_name = '/images/'.$name;
+       
+
+
         $invetory = new Inventory;
+        $invetory->image = $file_name;
         $invetory->category_id = $request->category;
+        $invetory->po_number = $request->po_number;
         $invetory->equipment_code = $inventory_code;
         $invetory->brand = $request->brand;
         $invetory->model = $request->model;
         $invetory->serial_number = $request->serial_number;
+        $invetory->engine_number = $request->engine_number;
+        $invetory->plate_number = $request->plate_number;
+        $invetory->chasis_number = $request->chasis_number;
+        $invetory->supplier = $request->supplier;
+        $invetory->date_purchase = $request->date_purchased;
         $invetory->description = $request->description;
         $invetory->amount = $request->amount;
-        // dd($request->employee);
-        if($request->employee == null)
-        {
-            $invetory->status = "Active";
-        }
-        else
-        {
-            $invetory->status = "Deployed";
-        }
+        $invetory->status = "Active";
         $invetory->save();
-        if($request->employee)
-        {
-            $employeeInventory = new EmployeeInventories;
-            $employeeInventory->inventory_id = $invetory->id;
-            $employeeInventory->emp_code = $request->employee;
-            $employeeInventory->status = "Active";
-            $employeeInventory->date_assigned = date('Y-m-d');
-            $employeeInventory->assigned_by = auth()->user()->id;
-            $employeeInventory->save();
-        }
-      
+       
+    
         $request->session()->flash('status','Successfully Created');
         return back();
 
@@ -265,6 +208,16 @@ class AssetController extends Controller
         ));
         return $pdf->stream('returnItems.pdf');
     }
+    public function printInventory(Request $request,$id)
+    {
+        $inventory = Inventory::with('category')->where('id',$id)->first();
+        // dd($transaction->items[0]->employee_inventory_d->inventoryData->category);
+        $pdf = PDF::loadView('printInventory',array(
+         'inventory' =>$inventory
+            
+        ));
+        return $pdf->stream('PrintInventory.pdf');
+    }
     public function for_repair()
     {
         return view('for_repair',
@@ -298,33 +251,8 @@ class AssetController extends Controller
     public function transactions()
     {
 
-        $client = new Client([
-            'base_uri' => 'http://192.168.50.119:4200/HRAPI/public/',
-            'cookies' => true,
-            ]);
-
-        $data = $client->request('POST', 'oauth/token', [
-            'json' => [
-                'username' => 'rccabato@premiummegastructures.com',
-                'password' => 'P@ssw0rd',
-                'grant_type' => 'password',
-                'client_id' => '2',
-                'client_secret' => 'rVI1kVh07yb4TBw8JiY8J32rmDniEQNQayf3sEyO',
-                ]
-        ]);
-
-        $response = json_decode((string) $data->getBody());
-        $key = $response->access_token;
-
-        $dataEmployee = $client->request('get', 'employees', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $key,
-                    'Accept' => 'application/json'
-                ],
-            ]);
-            $responseEmployee = json_decode((string) $dataEmployee->getBody());
-            $employees = $responseEmployee->data;
-            $employees = collect($employees);
+      
+        $employees = Employee::with('dep')->get();
             $assetCodes = AssetCode::get();
             $assetCodesDepartment = AssetCode::where('department','!=',null)->get();
             $employeeInventories = EmployeeInventories::with('inventoryData.category','EmployeeInventories.inventoryData.category')->where('status','Active')->where('generated',null)->where('department',null)->get();
@@ -417,44 +345,11 @@ class AssetController extends Controller
     }
     public function viewAccountabilitiesData(Request $request)
     {
-        $client = new Client([
-            'base_uri' => 'http://192.168.50.119:4200/HRAPI/public/',
-            'cookies' => true,
-            ]);
-
-        $data = $client->request('POST', 'oauth/token', [
-            'json' => [
-                'username' => 'rccabato@premiummegastructures.com',
-                'password' => 'P@ssw0rd',
-                'grant_type' => 'password',
-                'client_id' => '2',
-                'client_secret' => 'rVI1kVh07yb4TBw8JiY8J32rmDniEQNQayf3sEyO',
-                ]
-        ]);
-
-        $response = json_decode((string) $data->getBody());
-        $key = $response->access_token;
-
-        $dataEmployee = $client->request('get', 'employees', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $key,
-                    'Accept' => 'application/json'
-                ],
-            ]);
-
-            
-        $dataDepartments = $client->request('get', 'departments', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $key,
-                'Accept' => 'application/json'
-            ],
-        ]);
-        $responseEmployee = json_decode((string) $dataEmployee->getBody());
-        $responseDepartment = json_decode((string) $dataDepartments->getBody());
-        $employees = $responseEmployee->data;
-        $employeesCollect = collect($employees);
+       
+        $employees = Employee::with('dep')->get();
+        $employeesCollect = $employees;
         // dd($employeesCollect);
-        $employee = $employeesCollect->where('badgeno',$request->emp_id)->first();
+        $employee = $employeesCollect->where('emp_code',$request->emp_id)->first();
         // dd($employee);
         $employeeInventories = EmployeeInventories::with('inventoryData.category','transactions')->where('emp_code',$request->emp_id)->get();
         $categories = Category::where('status','Active')->get();
@@ -484,7 +379,7 @@ class AssetController extends Controller
             $transaction->status = "Uploaded";
             $transaction->save();
 
-            $transaction->notify(new SignedContractNotification(url($file_name)));
+            // $transaction->notify(new SignedContractNotification(url($file_name)));
             Alert::success('Successfully uploaded.')->persistent('Dismiss');
             return back();
             
@@ -493,9 +388,8 @@ class AssetController extends Controller
     public function return_items()
     {
 
-        $items = ReturnInventories::with('return_inventories.inventory_data.category','inventory_data','return_inventories.employee_inventories')->where('generated',null)->get();
-        // dd($items);
-        // dd($items)
+        $items = ReturnInventories::with('depp','return_inventories.inventory_data.category','inventory_data','return_inventories.employee_inventories')->where('generated',null)->get();
+    
         $transactions = ReturnItem::orderBy('id','desc')->get();
         return view('return_items',
             array(
@@ -548,7 +442,7 @@ class AssetController extends Controller
             $transaction->status = "Uploaded";
             $transaction->save();
 
-            $transaction->notify(new ReturnItemNotification(url($file_name)));
+            // $transaction->notify(new ReturnItemNotification(url($file_name)));
             Alert::success('Successfully uploaded.')->persistent('Dismiss');
             return back();
             

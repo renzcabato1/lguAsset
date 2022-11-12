@@ -1,18 +1,18 @@
-<div class="modal fade" id="generateQrCode{{$employee->badgeno}}" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+<div class="modal fade" id="generateQrCode{{$employee->emp_code}}" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="formModal">QR Code <button title='Print QR Code' class='btn btn-icon btn-warning fas fa-print' onclick='printDiv("{{$employee->badgeno}}");'> </button></h5>
+                <h5 class="modal-title" id="formModal">QR Code <button title='Print QR Code' class='btn btn-icon btn-warning fas fa-print' onclick='printDiv("{{$employee->emp_code}}");'> </button></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body text-center border " id='qr_code{{$employee->badgeno}}'>
+            <div class="modal-body text-center border " id='qr_code{{$employee->emp_code}}'>
 
-                <span id='qrGenerate'>{!! QrCode::size(250)->generate('http://192.168.50.119:6060/getDataAccountability?emp_id='.$employee->badgeno); !!}</span> 
+                <span id='qrGenerate'>{!! QrCode::size(250)->generate('http://192.168.50.119:6060/getDataAccountability?emp_id='.$employee->emp_code); !!}</span> 
                 <br>
                 <span id='employeeID'></span><br>
-                <span class='text-center' id='employeename'>{{$employee->lastname}}, {{$employee->firstname}} {{$employee->middlename}}</span>
+                <span class='text-center' id='employeename'>{{$employee->name}}</span>
             </div>
         </div>
     </div>

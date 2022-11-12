@@ -11,6 +11,13 @@
         <form class="">
             {{-- <label >Image</label> --}}
             {{-- <input type="file" class="form-control form-control mb-2 mr-sm-2" name='image' required> --}}
+            <label >Asset Type</label>
+            <select class=" select2 form-control form-control-sm" name='asset_type' style='width:100%;' required>
+                <option value=''>Select Type</option>
+                @foreach($asset_types as $asset_type)
+                    <option value='{{$asset_type->id}}'>{{$asset_type->name}}</option>
+                @endforeach
+            </select>
             <label >Category Name</label>
             <input type="text" name='category_name' class="form-control mb-2 mr-sm-2" value="{{ old('category_name') }}" placeholder="Category Name" required>
             <label >Category Code</label>

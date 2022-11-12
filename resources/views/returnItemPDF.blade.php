@@ -35,15 +35,14 @@
         <h1><img src='{{asset('login_css/images/logo.png')}}' width='100px' ></h1>
     </div>
  
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style='padding-bottom:5px;'>
         <tr >
             <td>
                 {{-- <img src='{{asset('login_css/images/logo.png')}}' width='150px' > --}}
-                <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:10px;' ><strong> OBANANA CORPORATION</strong></span><br>
-                    {{-- <br> --}}
-                    <span>PMI Tower Cabanillas Corner, 273 Pablo Ocampo Sr. Ext</span><br>
-                    <span>Makati, 1203 Metro Manila, Makati, Philippines</span><br>
-                    <span>Cel. No.: +63 945 729 5298 | Website: www.obanana.com</span>
+                    <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:3px;' ><strong> Republic of the Philippines</strong></span></p>
+                    <p align='center' class='font-design'><span style='font-size:22px;padding-bottom:5px;' ><strong> PROVINCE OF CATANDUANES</strong></span></p>
+                    <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:5px;' ><strong> Municipality of Caramoan</strong></span></p>
+         
                 </p>
             </td>
         </tr>
@@ -115,7 +114,7 @@
                 {{$inventory->employee_inventory_d->inventoryData->category->category_name}}
             </td>
             <td>
-                OBN-{{$inventory->employee_inventory_d->inventoryData->category->code}}-{{str_pad($inventory->employee_inventory_d->inventoryData->equipment_code, 4, '0', STR_PAD_LEFT)}}
+                {{$inventory->employee_inventory_d->inventoryData->category->code}}-{{str_pad($inventory->employee_inventory_d->inventoryData->equipment_code, 4, '0', STR_PAD_LEFT)}}
             </td>
             <td>
                 {{$inventory->employee_inventory_d->inventoryData->brand}}

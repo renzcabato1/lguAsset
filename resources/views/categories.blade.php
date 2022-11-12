@@ -22,6 +22,13 @@
                         <div class="card-body">
                             {{-- <label >Image</label>
                             <input type="file" class="form-control form-control mb-2 mr-sm-2" name='image' required> --}}
+                            <label >Asset Type</label>
+                            <select class=" select2 form-control form-control-sm" name='asset_type' style='width:100%;' required>
+                                <option value=''>Select Type</option>
+                                @foreach($asset_types as $asset_type)
+                                    <option value='{{$asset_type->id}}'>{{$asset_type->name}}</option>
+                                @endforeach
+                            </select>
                             <label >Category Name</label>
                             <input type="text" name='category_name' class="form-control mb-2 mr-sm-2" value="{{ old('category_name') }}" placeholder="Category Name" required>
                             <label >Category Code</label>
@@ -43,25 +50,22 @@
                         <table class="table table-striped table-hover" id="employees-table" style="width:100%;">
                           <thead>
                             <tr>
+                              <th>Asset Type</th>
                               <th>Category Code</th>
                               <th>Category Name</th>
+                              <th>Inventory Count</th>
                               <th>Status</th>
-                              {{-- <th>Image</th> --}}
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
                              @foreach($categories as $category)
                                 <tr>
-                                    
+                                    <td>{{$category->asset_type->name}}</td>
                                     <td>{{$category->code}}</td>
                                     <td>{{$category->category_name}}</td>
+                                    <td>{{count($category->inventories)}}</td>
                                     <td>@if($category->status == "Active") <small>Active</small> @else <small class='label label-danger'>Inactive</small>  @endif</td>
-                                    {{-- <td>
-                                        <figure>
-                                            <img src="{{URL::asset($category->image_path)}}" class=" avatar avatar-lg zoom "   style='background-color:white;'>
-                                        </figure>
-                                    </td> --}}
                                     <td data-id='{{$category->id}}'>
                                         @if($category->status == "Active")
                                         <a href="#" class="btn btn-icon btn-primary btn-sm" data-toggle="modal" data-target="#editCategory"><i class="far fa-edit"></i></a> 

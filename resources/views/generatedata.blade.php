@@ -26,7 +26,8 @@
                     <div class='row'>
                         <div class='col-sm-6'>
                             Department
-                        <input type="text" name='department' id='department' class="form-control mb-2 mr-sm-2"  placeholder="Department" readonly>
+                        <input type="hidden" name='department' id='department' class="form-control mb-2 mr-sm-2"  placeholder="Department" readonly>
+                        <input type="text" name='depp' id='depp' class="form-control mb-2 mr-sm-2"  placeholder="Department" readonly>
                         </div>
                         <div class='col-sm-6'>
                             Position
@@ -67,29 +68,30 @@
     var assetCodesDepartment = {!! json_encode($assetCodesDepartment->toArray()) !!};
     function generateEmployee(name)
     {
-        var employee = employees.find(employee => employee.badgeno == name.emp_code);
+        var employee = employees.find(employee => employee.emp_code == name.emp_code);
         if(name.department != null)
         {
             var inventories = name.employee_inventories_department;
             var code = assetCodesDepartment.find(code => code.employee_id === name.emp_code);
-            document.getElementById("employee_code").value = "OBN-"+name.department+"-"+pad("0000",code.code,true);
+            document.getElementById("employee_code").value = ""+name.department+"-"+pad("0000",code.code,true);
         }
         else
         {
             var inventories = name.employee_inventories;
             var code = assetCodes.find(code => code.employee_id === name.emp_code);
-            document.getElementById("employee_code").value = "OBN-ASSET-"+pad("0000",code.code,true);
+            document.getElementById("employee_code").value = "ASSET-"+pad("0000",code.code,true);
         }
         document.getElementById("employee_codes").value = name.emp_code;
         document.getElementById("department_data").value = name.department;
         document.getElementById("email_address").value = employee.emailaddress;
-        document.getElementById("department").value = employee.department;
+        document.getElementById("department").value = employee.dep.id;
+        document.getElementById("depp").value = employee.dep.name;
         document.getElementById("position").value = employee.position;
-        document.getElementById("name").value = employee.firstname+" "+employee.middlename+" "+employee.lastname;
+        document.getElementById("name").value = employee.name;
         $('#dataAssets').empty();
         for (var i = 0; i < inventories.length; i++) {
 
-            var dataAssets = "<div class='row border'><div class='col-sm-4 border'>OBN-"+inventories[i].inventory_data.category.code+"-"+pad("0000",inventories[i].inventory_data.equipment_code,true)+"";
+            var dataAssets = "<div class='row border'><div class='col-sm-4 border'>"+inventories[i].inventory_data.category.code+"-"+pad("0000",inventories[i].inventory_data.equipment_code,true)+"";
                 dataAssets += "</div>";    
                 dataAssets += "<div class='col-sm-2 border'>";    
                 dataAssets += inventories[i].inventory_data.brand;    

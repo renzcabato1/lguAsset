@@ -36,6 +36,14 @@ Route::get('deployed-assets','AssetController@deployedAssets');
 Route::get('transactions','AssetController@transactions');
 Route::post('return-item','AssetController@returnItem');
 Route::post('generate-data','AssetController@generateData');
+Route::get('print-inventory/{id}','AssetController@printInventory');
+
+
+
+//Departments
+Route::get('departments','DepartmentController@departments');
+Route::post('edit-department','DepartmentController@editDepartment');
+Route::post('new-department','DepartmentController@newDepartment');
 
 //Request
 Route::get('requests','RequestController@viewRequests');

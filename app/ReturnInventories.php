@@ -19,4 +19,8 @@ class ReturnInventories extends Model
     {
         return $this->belongsTo(EmployeeInventories::class,'employee_inventory_id','id');
     }
+    public function depp()
+    {
+        return $this->belongsTo(Department::class,'department','id');
+    }
 }

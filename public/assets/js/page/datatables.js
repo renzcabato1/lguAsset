@@ -59,6 +59,6 @@ $('#accountability-table').DataTable({
 $('#tableExport').DataTable({
   dom: 'Bfrtip',
   buttons: [
-    'copy', 'csv', 'excel', 'pdf', 'print'
+    'csv', 'excel'
   ]
 });

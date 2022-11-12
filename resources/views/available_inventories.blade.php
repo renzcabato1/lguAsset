@@ -31,7 +31,7 @@
                             <select class="form-control select2" name='asset[]' style='width:100%' required multiple >
                                 {{-- <option value=''>Select assets</option> --}}
                                 @foreach($inventories as $inventory)
-                                    <option value='{{$inventory->id}}'>OBN-{{$inventory->category->code}}-{{str_pad($inventory->equipment_code, 4, '0', STR_PAD_LEFT)}}</option>
+                                    <option value='{{$inventory->id}}'>{{$inventory->category->code}}-{{str_pad($inventory->equipment_code, 4, '0', STR_PAD_LEFT)}}</option>
                                 @endforeach
                             </select>
                           
@@ -39,8 +39,8 @@
                             <select class="form-control select2" name='employee' style='width:100%' required >
                                 <option value=''>Select employee</option>
                                 @foreach($employees as $employee)
-                                    @if($employee->emp_status == "Active")
-                                        <option value='{{$employee->badgeno}}'>{{$employee->lastname}}, {{$employee->firstname}} {{$employee->middlename}}</option>
+                                    @if($employee->status == "Active")
+                                        <option value='{{$employee->emp_code}}'>{{$employee->name}}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -97,9 +97,7 @@
       {
       
      
-          // var element = document.getElementById("depart");
-          // element.remove();
-
+        
           var cb = document.querySelector('#accept');
           console.log(cb.checked); // false
           if(cb.checked == true)
@@ -108,7 +106,7 @@
           var data = "<div id='depart'><label>Department</label><select id='department_select' class='form-control select3' name='department' style='width:100%' required >";
              data += "<option value=''></option>";
              data += "@foreach($departments as $department)";
-             data += "<option value='{{$department->code}}'>{{$department->descs}} - {{$department->code}}</option>";
+             data += "<option value='{{$department->code}}'>{{$department->name}} - {{$department->code}}</option>";
              data += "@endforeach";
              data += "</select></div>";
              $('#department').append(data);

@@ -67,10 +67,10 @@
     // var items = {!! json_encode($items->toArray()) !!};
     function generateEmployee(name)
     {
-        // console.log(name);
+        console.log(name);
         document.getElementById("employee_code").value = name.emp_code;
         document.getElementById("email").value = name.email;
-        document.getElementById("department").value = name.department;
+        document.getElementById("department").value = name.depp.name;
         document.getElementById("position").value = name.position;
         document.getElementById("name").value = name.name;
         $('#dataAssets').empty();
@@ -79,7 +79,7 @@
             if(inventories[i].date_generated == null)
             {
         var dataAssets = "<tr class='border border-dark'><td class='border border-dark'>"+inventories[i].inventory_data.category.category_name+"</td>";
-            dataAssets += "<td class='border border-dark'>OBN-"+inventories[i].inventory_data.category.code+"-"+pad("0000",inventories[i].inventory_data.equipment_code,true)+"</td>";    
+            dataAssets += "<td class='border border-dark'>"+inventories[i].inventory_data.category.code+"-"+pad("0000",inventories[i].inventory_data.equipment_code,true)+"</td>";    
             dataAssets += "<td class='border border-dark'>"+inventories[i].inventory_data.brand+"</td>";    
             dataAssets += "<td class='border border-dark'>"+inventories[i].inventory_data.model+"</td>";    
             dataAssets += "<td class='border border-dark'>"+inventories[i].inventory_data.serial_number+"</td>";    

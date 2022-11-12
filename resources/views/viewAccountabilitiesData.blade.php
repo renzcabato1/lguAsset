@@ -16,8 +16,8 @@
             </div>
           </div>
      
-          <span style='font-size: 8px;'>Name :  {{$employee->lastname}}, {{$employee->firstname}}<Br>
-            Department : {{$employee->department}} <br>
+          <span style='font-size: 8px;'>Name :  {{$employee->name}}<Br>
+            Department : {{$employee->dep->name}} <br>
             Position :{{$employee->position}} </span>
           </div>
           <div class="card-body">
@@ -37,7 +37,7 @@
                 <tbody>
                   @foreach($employeeInventories as $accountability)
                   <tr class='border border-dark'>
-                    <td class='border border-dark'>OBN-{{$accountability->inventoryData->category->code}}-{{str_pad($accountability->inventoryData->id, 4, '0', STR_PAD_LEFT)}}</td>
+                    <td class='border border-dark'>{{$accountability->inventoryData->category->code}}-{{str_pad($accountability->inventoryData->id, 4, '0', STR_PAD_LEFT)}}</td>
                     <td class='border border-dark'>{{$accountability->inventoryData->category->category_name}}</td>
                     <td class='border border-dark'>{{$accountability->inventoryData->brand}}</td>
                     <td class='border border-dark'>{{$accountability->inventoryData->model}}</td>
