@@ -127,8 +127,8 @@
                   <td></td>
                   <td></td>
               @else
-                   <td>{{$inventory->employee_inventory[0]->employee_info->dep->name}}</td>
-                   <td>{{$inventory->employee_inventory[0]->employee_info->name}}</td>
+                   <td>{{$inventory->employee_inventory}}</td>
+                   <td>{{$inventory->employee_inventory}}</td>
               @endif
                   <td>{{$inventory->status}}</td>
             </tr>
