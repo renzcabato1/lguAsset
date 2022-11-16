@@ -4,6 +4,13 @@
     <section class="section">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
+              @if(session()->has('status'))
+                  <div class="alert alert-success alert-dismissable">
+                      {{-- <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button> --}}
+                      {{session()->get('status')}}
+                  </div>
+              @endif
+              @include('error')
                 <div class="card">
                     <div class="card-header">
                       <h4>Employee <a href="#" class="btn btn-icon btn-sm btn-success" title='New Employee' data-toggle="modal" data-target="#new_employee"><i class="fas fa-plus"></i></a></h4>

@@ -20,20 +20,34 @@
                         <input type="text" class="form-control-sm form-control "  value="{{ old('name') }}"  name="name" required/>
                     </div>
                     <div class='col-md-12'>
+                        Email :
+                        <input type="email" class="form-control-sm form-control "  value="{{ old('email') }}"  name="email" required/>
+                    </div>
+                    <div class='col-md-12'>
                         Employee Code :
-                        <input type="text" class="form-control-sm form-control "  value="{{ old('employee_code') }}"  name="employee_code" required/>
+                        <input type="text" class="form-control-sm form-control "  value="{{ old('emp_code') }}"  name="emp_code" required/>
                     </div>
                     <div class='col-md-12'>
                         Department :
 
-                        <select id='department_select' class='form-control select2 form-control-sm' name='department' style='width:100%' required >
+                        <select  class='form-control form-control-sm' name='department' required >
                             <option value=''></option>
                             @foreach($departments as $department)
-                            <option value='{{$department->code}}'>{{$department->name}} - {{$department->code}}</option>
+                            <option value='{{$department->id}}'>{{$department->name}} - {{$department->code}}</option>
                             @endforeach
                             </select>
                        
                     </div>
+                 
+                    <div class='col-md-12'>
+                        Position :
+                        <input type="text" class="form-control-sm form-control "  value="{{ old('position') }}"  name="position" required/>
+                    </div>
+                    <div class='col-md-12'>
+                        Employee Type :
+                        <input type="text" class="form-control-sm form-control "  value="{{ old('emp_type') }}" placeholder="Regular,Probitionary,Project based"  name="emp_type" required/>
+                    </div>
+                   
                  
                 </div>
                 <div class="modal-footer">

@@ -65,6 +65,7 @@
 <script type="text/javascript">
     var employees = {!! json_encode($employees->toArray()) !!};
     var assetCodes = {!! json_encode($assetCodes->toArray()) !!};
+    console.log(assetCodes);
     var assetCodesDepartment = {!! json_encode($assetCodesDepartment->toArray()) !!};
     function generateEmployee(name)
     {
@@ -79,6 +80,7 @@
         {
             var inventories = name.employee_inventories;
             var code = assetCodes.find(code => code.employee_id === name.emp_code);
+            console.log(code);
             document.getElementById("employee_code").value = "ASSET-"+pad("0000",code.code,true);
         }
         document.getElementById("employee_codes").value = name.emp_code;

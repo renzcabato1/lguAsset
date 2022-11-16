@@ -25,6 +25,7 @@ Route::post('activate-category','CategoryController@activateCategory');
 
 //Employees API
 Route::get('employees','EmployeeController@employees');
+Route::post('new-employee','EmployeeController@new_employee');
 
 //Assets
 Route::get('assets-inventory','AssetController@assets');
