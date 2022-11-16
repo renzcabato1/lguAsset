@@ -54,7 +54,7 @@
             <div class="card-statistic-3">
               <div class="card-icon card-icon-large"><i class="fa fa-wrench"></i></div>
               <div class="card-content">
-                <h4 class="card-title">Decommissioned Assets</h4>
+                <h4 class="card-title">Disposed Assets</h4>
                 <span>0</span>
                 <p class="mb-0 text-sm">
                   <span class="mr-2"></span>

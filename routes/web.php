@@ -27,6 +27,16 @@ Route::post('activate-category','CategoryController@activateCategory');
 Route::get('employees','EmployeeController@employees');
 Route::post('new-employee','EmployeeController@new_employee');
 
+
+//users
+Route::get('users','UserController@index');
+Route::post('new-user','UserController@create');
+Route::get('activate/{id}','UserController@activate');
+Route::get('deactivate/{id}','UserController@deactivate');
+
+//Reports
+Route::get('reports','AssetController@reports');
+Route::get('print-report','AssetController@printreports');
 //Assets
 Route::get('assets-inventory','AssetController@assets');
 Route::post('new-inventory','AssetController@newAssets');
@@ -38,8 +48,6 @@ Route::get('transactions','AssetController@transactions');
 Route::post('return-item','AssetController@returnItem');
 Route::post('generate-data','AssetController@generateData');
 Route::get('print-inventory/{id}','AssetController@printInventory');
-
-
 
 //Departments
 Route::get('departments','DepartmentController@departments');

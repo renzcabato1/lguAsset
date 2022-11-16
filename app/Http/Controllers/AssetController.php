@@ -448,4 +448,78 @@ class AssetController extends Controller
             
         }
     }
+
+    public function reports(Request $request)
+    {
+            $dep = null;
+            if($request->department != null)
+            {
+                $dep = $request->department;
+        
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
+                        $query->where('date_returned','=',null)->first();
+                    }
+                ])
+                ->whereHas('employee_inventory.employee_info.dep', function ($query) use ($dep) {
+                    $query->where('id', $dep);
+                })
+                ->get();
+        }
+            else
+
+            {
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
+                    $query->where('date_returned','=',null)->first();
+                }
+            ])
+            ->get();
+          }
+
+        $departments = Department::get();
+        return view('report',
+        array(
+            'subheader' => '',
+            'header' => "Reports",
+            'inventories' => $inventories,
+            'departments' => $departments,
+            'depa' => $dep,
+            )
+        );
+    }
+    public function printreports(Request $request)
+    {
+            $dep = null;
+
+            $depart =  null;
+            if($request->department != null)
+            {
+                $dep = $request->department;
+                $depart = Department::where('id',$request->department)->first();
+        
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
+                        $query->where('date_returned','=',null)->first();
+                    }
+                ])
+                ->whereHas('employee_inventory.employee_info.dep', function ($query) use ($dep) {
+                    $query->where('id', $dep);
+                })
+                ->get();
+            }
+            else
+
+            {
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
+                    $query->where('date_returned','=',null)->first();
+                }
+            ])
+            ->get();
+          }
+
+          $pdf = PDF::loadView('inventories-print',array(
+            'inventories' =>$inventories,
+            'department'  => $depart
+               
+           ))->setPaper('', 'landscape');;
+           return $pdf->stream('Inventory.pdf');
+    }
 }

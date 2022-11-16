@@ -18,7 +18,6 @@ class EmployeeController extends Controller
         $employeeInventories = EmployeeInventories::with('inventoryData.category')->get();
         $employees = Employee::with('dep')->get();
         $departments = Department::orderBy('name','asc')->get();
-        //employee API
        
        
         return view('employees',
@@ -44,13 +43,6 @@ class EmployeeController extends Controller
             'position' => 'required',
             'emp_type' => 'required',
         ]);
-
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role = "User";
-        $user->save();
 
         $employee = new Employee;
         $employee->emp_code = $request->emp_code;

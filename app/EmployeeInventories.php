@@ -23,4 +23,8 @@ class EmployeeInventories extends Model
     {
         return $this->hasOne(Transaction::class,'emp_code','emp_code');
     }
+    public function employee_info()
+    {
+        return $this->hasOne(Employee::class,'emp_code','emp_code');
+    }
 }

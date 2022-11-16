@@ -185,8 +185,14 @@
               <li class="dropdown @if($header == "Employees") active @endif">
                 <a href="{{ url('/employees') }}" class="nav-link" onclick='show();'><i data-feather="users"></i><span>Employees</span></a>
               </li>
+              <li class="dropdown @if($header == "Users") active @endif">
+                <a href="{{ url('/users') }}" class="nav-link" onclick='show();'><i data-feather="user-plus"></i><span>Users</span></a>
+              </li>
               <li class="dropdown @if($header == "Assets") active @endif">
                 <a href="{{ url('/assets-inventory') }}" class="nav-link" onclick='show();'><i data-feather="hard-drive"></i><span>Assets</span></a>
+              </li>
+              <li class="dropdown @if($header == "Reports") active @endif">
+                <a href="{{ url('/reports') }}" class="nav-link" onclick='show();'><i data-feather="file-text"></i><span>Report</span></a>
               </li>
             </ul>
         </aside>
