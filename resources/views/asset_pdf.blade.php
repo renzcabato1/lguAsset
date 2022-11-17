@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-   
-    
+
+
+
     <title>{{ config('app.name', 'Laravel') }}</title>
     <style>
-        table { 
+        table {
             border-spacing: 0;
             border-collapse: collapse;
         }
@@ -25,7 +25,7 @@
         .content td{
         padding-bottom: 10px;
         }
-       
+
         #footer { position: fixed;  bottom: 70px; }
     </style>
 </head>
@@ -33,7 +33,7 @@
     <div id="header">
         <h1><img src='{{asset('login_css/images/logo.png')}}' width='100px' ></h1>
     </div>
- 
+
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style='padding-bottom:5px;'>
         <tr >
@@ -42,7 +42,7 @@
                     <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:3px;' ><strong> Republic of the Philippines</strong></span></p>
                     <p align='center' class='font-design'><span style='font-size:22px;padding-bottom:5px;' ><strong> PROVINCE OF CATANDUANES</strong></span></p>
                     <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:5px;' ><strong> Municipality of Caramoran</strong></span></p>
-         
+
                 </p>
             </td>
         </tr>
@@ -52,9 +52,9 @@
         <tr >
             <td colspan='2' align='center'>
                 <span class='font-design' style='font-size:14px;padding-bottom:10px;' ><strong>ASSET ACCOUNTABILITY FORM</strong></span>
-                
+
         <br>
-        
+
         <br>
         <br>
             </td>
@@ -62,7 +62,7 @@
         <tr class='content'>
             <td width='60%' >
                 NAME : {{$transaction->name}}
-               
+
             </td>
             <td width='30%'>
                 DATE :   {{date('F d, Y',strtotime($transaction->created_at))}}
@@ -87,7 +87,7 @@
         <tr  class='content' align='center' style='padding-top:10px;'>
            <td colspan='2'>
                 <b style='font-size:13px;'>
-                    I recieved the following item(s) for use at Obanana Corp. (OBN) in good order and condition. As the user for this item(s) below, it is now under my accountability and will be held liable for any damage or lost property.
+                    I recieved the following item(s) for use at Local Government Unit of Caramoran in good order and condition. As the user for this item(s) below, it is now under my accountability and will be held liable for any damage or lost property.
                 </b>
            </td>
         </tr>
@@ -163,7 +163,7 @@
                     <br>
                     {{$transaction->name}}<br>
                     <span class='font-design' style='font-size:12px;padding-bottom:10px;text-decoration: overline;' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature over Printed Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-             
+
                 </td>
             </tr>
         </table>

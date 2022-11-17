@@ -4,10 +4,10 @@
 <div class="main-content">
     <section class="section">
         <form method='get' action='reports' onsubmit='show();'  enctype="multipart/form-data">
-           
+
         <div class='row'>
-    
-              
+
+
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
@@ -28,9 +28,9 @@
                           </div>
                     </div>
                 </div>
-              
+
             </div>
-    
+
         </div>
     </form>
         <div class="row">
@@ -88,11 +88,11 @@
                                     <small>{{$inventory->supplier}}</small>
                                 </td>
                                 <td>{{date('M d, Y',strtotime($inventory->date_purchase))}}</td>
-                             
+
                                 <td>{{number_format($inventory->amount,2)}}</td>
                                 <td>{{$inventory->status}}</td>
                                 @if($inventory->status == "Deployed")
-                                  
+
                                     <td>{{$inventory->employee_inventory[0]->employee_info->dep->name}}</td>
                                     <td>{{$inventory->employee_inventory[0]->employee_info->name}}</td>
                                 @else
@@ -104,7 +104,7 @@
                             @endforeach
                           </tbody>
                         </table>
-                      </div>    
+                      </div>
                     </div>
                 </div>
             </div>

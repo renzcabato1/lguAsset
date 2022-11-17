@@ -43,12 +43,12 @@ class AssetController extends Controller
     public function availableAssets()
     {
         $inventories = Inventory::with('category')->where('status','Active')->get();
-       
+
         $employees = Employee::with('dep')->get();
         $departments = Department::get();
         // dd($departments);
         return view('available_inventories',
-        
+
         array(
             'subheader' => '',
             'header' => "Available Assets",
@@ -81,7 +81,7 @@ class AssetController extends Controller
         $oldest_data = Inventory::where('category_id',$request->category)->orderBy('id','desc')->first();
         $inventory_code = 0;
         if($oldest_data == null)
-        {   
+        {
             $inventory_code = $inventory_code + 1;
         }
         else
@@ -94,7 +94,7 @@ class AssetController extends Controller
         $name = time().'_'.$attachment->getClientOriginalName();
         $attachment->move(public_path().'/images/', $name);
         $file_name = '/images/'.$name;
-       
+
 
 
         $invetory = new Inventory;
@@ -114,8 +114,8 @@ class AssetController extends Controller
         $invetory->amount = $request->amount;
         $invetory->status = "Active";
         $invetory->save();
-       
-    
+
+
         $request->session()->flash('status','Successfully Created');
         return back();
 
@@ -173,7 +173,7 @@ class AssetController extends Controller
                     $newCode->save();
                 }
             }
-            
+
             $employeeInventory = new EmployeeInventories;
             $employeeInventory->inventory_id = $asset;
             $employeeInventory->emp_code = $request->employee;
@@ -184,17 +184,17 @@ class AssetController extends Controller
             $employeeInventory->save();
         }
 
-        
+
         $request->session()->flash('status','Successfully Assigned');
         return back();
     }
     public function viewAccountabilityPdf(Request $request,$id)
     {
         $transaction = Transaction::with('inventories.inventoriesData.category')->where('id',$id)->first();
-      
+
         $pdf = PDF::loadView('asset_pdf',array(
          'transaction' =>$transaction
-            
+
         ));
         return $pdf->stream('accountability.pdf');
     }
@@ -204,7 +204,7 @@ class AssetController extends Controller
         // dd($transaction->items[0]->employee_inventory_d->inventoryData->category);
         $pdf = PDF::loadView('returnItemPDF',array(
          'transaction' =>$transaction
-            
+
         ));
         return $pdf->stream('returnItems.pdf');
     }
@@ -214,7 +214,7 @@ class AssetController extends Controller
         // dd($transaction->items[0]->employee_inventory_d->inventoryData->category);
         $pdf = PDF::loadView('printInventory',array(
          'inventory' =>$inventory
-            
+
         ));
         return $pdf->stream('PrintInventory.pdf');
     }
@@ -229,7 +229,7 @@ class AssetController extends Controller
     }
     public function accountabilities()
     {
-     
+
         $employeeInventories = EmployeeInventories::with('inventoryData.category','transactions')->whereHas('transactions')->where('status','Active')->get();
         return view('accountabilities',
             array(
@@ -251,14 +251,14 @@ class AssetController extends Controller
     public function transactions()
     {
 
-      
+
         $employees = Employee::with('dep')->get();
             $assetCodes = AssetCode::get();
             $assetCodesDepartment = AssetCode::where('department','!=',null)->get();
             $employeeInventories = EmployeeInventories::with('inventoryData.category','EmployeeInventories.inventoryData.category')->where('status','Active')->where('generated',null)->where('department',null)->get();
             $employeeInventoriesDepartment = EmployeeInventories::with('inventoryData.category','EmployeeInventoriesDepartment.inventoryData.category')->where('status','Active')->where('generated',null)->where('department','!=',null)->get();
             $transactions = Transaction::orderBy('id','desc')->get();
-            // dd($transactions); 
+            // dd($transactions);
             return view('transactions',
             array(
             'subheader' => '',
@@ -283,7 +283,7 @@ class AssetController extends Controller
         {
             $employeeInventory->returned_status = "Good Condition";
         }
-        
+
         $employeeInventory->returned_to = auth()->user()->id;
         $employeeInventory->status = "Returned";
         $employeeInventory->save();
@@ -345,7 +345,7 @@ class AssetController extends Controller
     }
     public function viewAccountabilitiesData(Request $request)
     {
-       
+
         $employees = Employee::with('dep')->get();
         $employeesCollect = $employees;
         // dd($employeesCollect);
@@ -382,14 +382,14 @@ class AssetController extends Controller
             // $transaction->notify(new SignedContractNotification(url($file_name)));
             Alert::success('Successfully uploaded.')->persistent('Dismiss');
             return back();
-            
+
         }
     }
     public function return_items()
     {
 
         $items = ReturnInventories::with('depp','return_inventories.inventory_data.category','inventory_data','return_inventories.employee_inventories')->where('generated',null)->get();
-    
+
         $transactions = ReturnItem::orderBy('id','desc')->get();
         return view('return_items',
             array(
@@ -445,7 +445,7 @@ class AssetController extends Controller
             // $transaction->notify(new ReturnItemNotification(url($file_name)));
             Alert::success('Successfully uploaded.')->persistent('Dismiss');
             return back();
-            
+
         }
     }
 
@@ -455,11 +455,8 @@ class AssetController extends Controller
             if($request->department != null)
             {
                 $dep = $request->department;
-        
-                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
-                        $query->where('date_returned','=',null)->first();
-                    }
-                ])
+
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep'])
                 ->whereHas('employee_inventory.employee_info.dep', function ($query) use ($dep) {
                     $query->where('id', $dep);
                 })
@@ -468,10 +465,7 @@ class AssetController extends Controller
             else
 
             {
-                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
-                    $query->where('date_returned','=',null)->first();
-                }
-            ])
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep'])
             ->get();
           }
 
@@ -494,31 +488,25 @@ class AssetController extends Controller
             if($request->department != null)
             {
                 $dep = $request->department;
-                $depart = Department::where('id',$request->department)->first();
-        
-                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
-                        $query->where('date_returned','=',null)->first();
-                    }
-                ])
+
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep'])
                 ->whereHas('employee_inventory.employee_info.dep', function ($query) use ($dep) {
                     $query->where('id', $dep);
                 })
                 ->get();
-            }
+        }
             else
 
             {
-                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep','employee_inventory' => function ($query) {
-                    $query->where('date_returned','=',null)->first();
-                }
-            ])
+                $inventories = Inventory::with(['category','employee_inventory.employee_info.dep'])
             ->get();
+
           }
 
           $pdf = PDF::loadView('inventories-print',array(
             'inventories' =>$inventories,
             'department'  => $depart
-               
+
            ))->setPaper('', 'landscape');;
            return $pdf->stream('Inventory.pdf');
     }

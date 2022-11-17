@@ -15,18 +15,18 @@
                 <div class="card">
                     <form method='post' action='assign-asset' onsubmit='show();'  enctype="multipart/form-data">
                         {{ csrf_field() }}
-                      
+
                         <div class="card-header">
                         <h4>Assign to Employee / Department </h4>
                         </div>
                         <div class="card-body">
-                          <label class="mt-2">
+                          {{-- <label class="mt-2">
                             <input type="checkbox" id='accept'  name="custom-switch-checkbox" class="custom-switch-input" onclick="change_department();">
                             <span class="custom-switch-indicator"></span>
                             <span class="custom-switch-description">Department</span>
                           </label><br>
                           <div id='department'>
-                          </div>
+                          </div> --}}
                             <label>Assets</label>
                             <select class="form-control select2" name='asset[]' style='width:100%' required multiple >
                                 {{-- <option value=''>Select assets</option> --}}
@@ -34,7 +34,7 @@
                                     <option value='{{$inventory->id}}'>{{$inventory->category->code}}-{{str_pad($inventory->equipment_code, 4, '0', STR_PAD_LEFT)}}</option>
                                 @endforeach
                             </select>
-                          
+
                             <label>Employee Assigned</label>
                             <select class="form-control select2" name='employee' style='width:100%' required >
                                 <option value=''>Select employee</option>
@@ -92,17 +92,17 @@
 </div>
 
 <script>
-  
+
       function change_department()
       {
-      
-     
-        
+
+
+
           var cb = document.querySelector('#accept');
           console.log(cb.checked); // false
           if(cb.checked == true)
           {
-          
+
           var data = "<div id='depart'><label>Department</label><select id='department_select' class='form-control select3' name='department' style='width:100%' required >";
              data += "<option value=''></option>";
              data += "@foreach($departments as $department)";
@@ -112,16 +112,16 @@
              $('#department').append(data);
              $(".select3").select2();
 
-               
+
           }
           else
           {
             var element = document.getElementById("depart");
             element.remove();
-            
+
           }
-        
-     
+
+
      }
 </script>
 @endsection

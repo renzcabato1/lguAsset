@@ -14,7 +14,7 @@ class Inventory extends Model
 
     public function employee_inventory()
     {
-        return $this->hasMany(EmployeeInventories::class);
+        return $this->hasMany(EmployeeInventories::class,'inventory_id','id');
     }
 
 
