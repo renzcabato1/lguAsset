@@ -41,7 +41,7 @@
                 {{-- <img src='{{asset('login_css/images/logo.png')}}' width='150px' > --}}
                     <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:3px;' ><strong> Republic of the Philippines</strong></span></p>
                     <p align='center' class='font-design'><span style='font-size:22px;padding-bottom:5px;' ><strong> PROVINCE OF CATANDUANES</strong></span></p>
-                    <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:5px;' ><strong> Municipality of Caramoan</strong></span></p>
+                    <p align='center' class='font-design'><span style='font-size:14px;padding-bottom:5px;' ><strong> Municipality of Caramoran</strong></span></p>
          
                 </p>
             </td>
