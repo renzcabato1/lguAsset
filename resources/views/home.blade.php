@@ -28,7 +28,7 @@
                 <span>{{count($active_inventories)}}</span>
             
                 <p class="mb-0 text-sm">
-                  <span class="mr-2"></span>
+                  <span class="mr-2">Deployed Assets <a href="#" class="badge badge-light">{{count($deployed_inventories)}}</a></span>
                 </p>
               </div>
             </div>
@@ -39,8 +39,8 @@
             <div class="card-statistic-3">
               <div class="card-icon card-icon-large"><i class="fa fa-paper-plane"></i></div>
               <div class="card-content">
-                <h4 class="card-title">Deployed Assets</h4>
-                <span>{{count($deployed_inventories)}}</span>
+                <h4 class="card-title">For Repair</h4>
+                <span>{{count($inventories->where('status','For Repair'))}}</span>
                
                 <p class="mb-0 text-sm">
                   <span class="mr-2"></span>
@@ -55,9 +55,9 @@
               <div class="card-icon card-icon-large"><i class="fa fa-wrench"></i></div>
               <div class="card-content">
                 <h4 class="card-title">Disposed Assets</h4>
-                <span>0</span>
+                <span>{{count($inventories->where('status','Disposed'))}}</span>
                 <p class="mb-0 text-sm">
-                  <span class="mr-2"></span>
+                  <span class="mr-2">For Disposal <span class='badge btn-danger'>{{count($inventories->where('status','For Disposal'))}}</span></span>
                 </p>
               </div>
             </div>

@@ -194,6 +194,9 @@
               <li class="dropdown @if($header == "Reports") active @endif">
                 <a href="{{ url('/reports') }}" class="nav-link" onclick='show();'><i data-feather="file-text"></i><span>Report</span></a>
               </li>
+              <li class="dropdown @if($header == "Phisical Inventory") active @endif">
+                <a href="{{ url('/physical-inventory') }}" class="nav-link" onclick='show();'><i data-feather="upload"></i><span>Phisical Inventory</span></a>
+              </li>
             </ul>
         </aside>
       </div>

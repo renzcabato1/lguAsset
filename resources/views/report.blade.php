@@ -55,6 +55,7 @@
                               <th>Supplier</th>
                               <th>Date Purchase</th>
                               <th>Unit Price</th>
+                              <th>Status</th>
                               <th>Office</th>
                               <th>Accountable Person</th>
                               <th>Remarks</th>
@@ -89,20 +90,21 @@
                                 <td>{{date('M d, Y',strtotime($inventory->date_purchase))}}</td>
                              
                                 <td>{{number_format($inventory->amount,2)}}</td>
-                                @if($inventory->status == "Active")
+                                <td>{{$inventory->status}}</td>
+                                @if($inventory->status == "Deployed")
                                   
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{$inventory->employee_inventory[0]->employee_info->dep->name}}</td>
+                                    <td>{{$inventory->employee_inventory[0]->employee_info->name}}</td>
                                 @else
                                      <td></td>
                                      <td></td>
                                 @endif
-                                    <td>{{$inventory->status}}</td>
+                                    <td></td>
                               </tr>
                             @endforeach
                           </tbody>
                         </table>
-                      </div>
+                      </div>    
                     </div>
                 </div>
             </div>

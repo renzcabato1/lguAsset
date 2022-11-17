@@ -122,14 +122,14 @@
               <td>{{date('M d, Y',strtotime($inventory->date_purchase))}}</td>
            
               <td>{{number_format($inventory->amount,2)}}</td>
-              @if($inventory->status == "Active")
-                
-                  <td></td>
-                  <td></td>
-              @else
-                   <td></td>
-                   <td></td>
-              @endif
+              @if($inventory->status == "Deployed")
+                                  
+                <td>{{$inventory->employee_inventory[0]->employee_info->dep->name}}</td>
+                <td>{{$inventory->employee_inventory[0]->employee_info->name}}</td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
                   <td>{{$inventory->status}}</td>
             </tr>
           @endforeach

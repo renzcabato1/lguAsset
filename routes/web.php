@@ -70,6 +70,9 @@ Route::get('returns','AssetController@return_items');
 Route::post('generate-data-return','AssetController@generate_data_return');
 Route::post('upload-pdf-return','AssetController@upload_pdf_return');
 
+Route::get('physical-inventory','PhysicalInventoryController@index');
+Route::post('upload-inventory','PhysicalInventoryController@create');
+
 });
 
 //outside
